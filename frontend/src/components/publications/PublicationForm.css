@@ -1,0 +1,44 @@
+.pub-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pub-form .form-group {
+  margin-bottom: 1.4rem;
+}
+
+.pub-form textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.submit-btn {
+  margin-top: 0.5rem;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+}

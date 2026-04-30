@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+**/node_modules/
+frontend/node_modules/
+server/node_modules/
+
+# Environment Variables & Secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+frontend/.env
+server/.env
+server/token.json
+*.pem
+*.key
+*.crt
+*.p12
+
+# Build output
+build/
+dist/
+**/build/
+**/dist/
+**/.cache/
+.cache/
+.vite/
+coverage/
+frontend/build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+**/.vscode/
+**/.idea/
+*.swp
+*.swo
+**/*.swp
+**/*.swo
+
+# Local Uploads
+server/uploads/
+client-backup/
+
+# Local files
+Research Publication App (ScholarX).pdf
+scholarx.zip
+*.zip
+server/dummy.pdf
+
+# Planning & Metadata
+scratch/
+planning/MASTER_CODE.md
+planning/CONTEXT_LOG.md
+planning/

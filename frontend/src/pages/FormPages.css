@@ -1,0 +1,25 @@
+.form-page { max-width: 720px; }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  margin-bottom: 2rem;
+  transition: var(--transition);
+}
+.back-link:hover { color: var(--gold); }
+
+.form-page-header { margin-bottom: 2rem; }
+
+.form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+
+@media (max-width: 480px) {
+  .form-card { padding: 1.25rem; }
+}
