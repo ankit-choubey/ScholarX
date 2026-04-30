@@ -1,0 +1,35 @@
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.contact-icon {
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+.contact-info .card h3 {
+  font-family: var(--font-display);
+  margin-bottom: 0.4rem;
+}
+.contact-info .card p { color: var(--text-secondary); font-size: 0.9rem; }
+
+.contact-form { display: flex; flex-direction: column; gap: 0; }
+.contact-form .form-group { margin-bottom: 1.2rem; }
+.contact-form .form-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form .btn { justify-content: center; padding: 0.8rem; }
+
+@media (max-width: 640px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}

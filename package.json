@@ -1,0 +1,19 @@
+{
+  "name": "scholarx",
+  "version": "1.0.0",
+  "description": "Research Publication Management System — MERN Stack",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"SERVER,FRONTEND\" --prefix-colors \"cyan,magenta\" \"npm run dev --prefix server\" \"npm start --prefix frontend\"",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix frontend",
+    "seed": "node server/seed.js",
+    "start": "concurrently --names \"SERVER,FRONTEND\" --prefix-colors \"cyan,magenta\" \"npm run start --prefix server\" \"npm start --prefix frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "8.2.2"
+  },
+  "dependencies": {
+    "cloudinary": "^2.10.0",
+    "mongodb": "^7.2.0"
+  }
+}
