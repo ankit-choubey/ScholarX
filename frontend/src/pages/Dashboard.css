@@ -246,6 +246,36 @@
   flex-wrap: wrap;
 }
 
+.reviewer-papers-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem; /* add vertical gap between info cards and paper cards */
+}
+
+.editor-pub-list {
+  gap: 1.15rem;
+  padding-inline: 0.2rem;
+}
+
+.editor-pub-row {
+  padding-inline: 1.65rem;
+}
+
+@media (min-width: 768px) {
+  .reviewer-papers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    row-gap: 1rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .reviewer-papers-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 1.35rem;
+  }
+}
+
 @media (max-width: 640px) {
   .dash-pub-row { flex-direction: column; }
   .dash-pub-actions { flex-direction: row; flex-wrap: wrap; }

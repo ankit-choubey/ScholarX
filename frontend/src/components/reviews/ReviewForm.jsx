@@ -3,7 +3,7 @@ import '../common/ui.css';
 
 export default function ReviewForm({ form, onChange, onSubmit, saving, errors = {}, submitted = false }) {
   return (
-    <form onSubmit={onSubmit} className="card space-y-5">
+    <form onSubmit={onSubmit} className="card space-y-5" style={{ paddingInline: '1.25rem' }}>
       <h2 className="text-lg font-semibold">Review</h2>
 
       <div className="space-y-2">
@@ -35,12 +35,9 @@ export default function ReviewForm({ form, onChange, onSubmit, saving, errors = 
         {errors.comments ? <p className="field-error">{errors.comments}</p> : null}
       </div>
 
-      <label className="flex items-center gap-2 rounded-md border border-white/10 px-3 py-2 text-sm text-slate-300">
-        <input type="checkbox" checked={form.isConfidential} onChange={(e) => onChange('isConfidential', e.target.checked)} />
-        Mark as confidential
-      </label>
-
-      <button disabled={saving} className="btn btn-primary w-full disabled:opacity-60">{saving ? 'Saving...' : submitted ? 'Update Review' : 'Submit Review'}</button>
+      <div style={{ marginTop: '0.75rem' }}>
+        <button disabled={saving} className="btn btn-primary w-full disabled:opacity-60" style={{ paddingInline: '1.5rem' }}>{saving ? 'Saving...' : submitted ? 'Update Review' : 'Submit Review'}</button>
+      </div>
     </form>
   );
 }

@@ -301,7 +301,7 @@ const Dashboard = () => {
           {loading ? (
             <Loader text="Loading assigned papers..." />
           ) : assignedPapers.length ? (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="reviewer-papers-grid">
               {assignedPapers.map((paper) => <PaperCard key={paper._id} paper={paper} role={user.role} />)}
             </div>
           ) : (
@@ -329,9 +329,9 @@ const Dashboard = () => {
           ) : !editorData.papers.length ? (
             <div className="card text-slate-400">No papers found for selected status.</div>
           ) : (
-            <div className="dash-pub-list">
+            <div className="dash-pub-list editor-pub-list">
               {editorData.papers.map((paper) => (
-                <div key={paper._id} className="dash-pub-row">
+                <div key={paper._id} className="dash-pub-row editor-pub-row">
                   <div className="dash-pub-info">
                     <div className="dash-pub-top">
                       <StatusBadge status={paper.status} />

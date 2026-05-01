@@ -25,16 +25,63 @@ exports.createPublication = async (req, res, next) => {
 
 exports.getAllPublications = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10, sort = 'newest' } = req.query;
+    let { page = 1, limit = 10, sort = 'newest', q, category } = req.query;
+    page = Number(page);
+    limit = Number(limit);
     const order = sort === 'oldest' ? 1 : -1;
+
+    // Build publication-level filter. We'll restrict by paper IDs when q/category target paper fields.
+    const pubFilter = {};
+
+    // If q or category provided, find matching paper IDs first (safe, non-destructive).
+    if (q || category) {
+      const paperQuery = {};
+      if (q) {
+        const escaped = q.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+        const regex = new RegExp(escaped, 'i');
+        paperQuery.$or = [
+          { title: { $regex: regex } },
+          { abstract: { $regex: regex } },
+          { keywords: { $regex: regex } },
+        ];
+      }
+      if (category) {
+        // match exact keyword element
+        paperQuery.$and = paperQuery.$and || [];
+        paperQuery.$and.push({ $or: [ { keywords: category } ] });
+      }
+
+      const matchingPapers = await Paper.find(paperQuery).select('_id').lean();
+      const paperIds = matchingPapers.map((p) => p._id);
+
+      if (paperIds.length) {
+        pubFilter.paperId = { $in: paperIds };
+      } else {
+        // No matching papers — however category might match publication.journalName.
+        if (category) pubFilter.$or = [{ journalName: category }];
+        else {
+          // No matches for search; return empty paginated response without touching other flows.
+          return res.json({ success: true, data: { items: [], total: 0, page, totalPages: 0 } });
+        }
+      }
+    }
+
+    // If category provided and pubFilter doesn't already include journalName, allow journalName match as well
+    if (category && !pubFilter.$or) {
+      pubFilter.$or = pubFilter.paperId ? [ { paperId: pubFilter.paperId }, { journalName: category } ] : [ { journalName: category } ];
+      if (pubFilter.paperId) delete pubFilter.paperId; // move into $or to combine both options
+    }
+
+    // Query publications with same shape as before
     const [items, total] = await Promise.all([
-      Publication.find()
+      Publication.find(pubFilter)
         .populate({ path: 'paperId', populate: { path: 'authorId', select: 'name institution' } })
         .sort({ publicationDate: order })
-        .skip((page - 1) * limit).limit(Number(limit)).lean(),
-      Publication.countDocuments(),
+        .skip((page - 1) * limit).limit(limit).lean(),
+      Publication.countDocuments(pubFilter),
     ]);
-    res.json({ success: true, data: { items, total, page: Number(page), totalPages: Math.ceil(total / limit) } });
+
+    res.json({ success: true, data: { items, total, page, totalPages: Math.ceil(total / limit) } });
   } catch (err) { next(err); }
 };
 
