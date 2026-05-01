@@ -123,7 +123,7 @@ exports.deletePaper = async (req, res, next) => {
     const paper = await Paper.findById(req.params.id);
     if (!paper) return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Paper not found', fields: null } });
     if (String(paper.authorId) !== String(req.user._id)) return res.status(403).json({ success: false, error: { code: 'FORBIDDEN', message: 'Not your paper', fields: null } });
-    if (paper.status !== 'submitted') return res.status(400).json({ success: false, error: { code: 'PAPER_ALREADY_IN_REVIEW', message: 'Cannot delete — paper is past submission stage', fields: null } });
+    if (paper.status === 'published') return res.status(400).json({ success: false, error: { code: 'PAPER_ALREADY_PUBLISHED', message: 'Cannot delete — paper is already published', fields: null } });
     await paper.deleteOne();
     res.json({ success: true, data: { message: 'Paper deleted', deletedId: req.params.id } });
   } catch (err) { next(err); }

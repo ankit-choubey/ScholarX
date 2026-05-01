@@ -245,7 +245,7 @@ const Dashboard = () => {
             {pubs.map((pub, i) => {
               const color = categoryColor(pub.category);
               const ownerId = String(pub.authorId?._id || pub.authorId || '');
-              const canDelete = pub.status === 'submitted' && ownerId === String(user?._id || '');
+              const canDelete = ownerId === String(user?._id || '') && pub.status !== 'published';
               return (
                 <div key={pub._id} className={`dash-pub-row fade-up delay-${Math.min(i + 1, 6)}`}>
                   <div className="dash-pub-color-bar" style={{ background: color }} />

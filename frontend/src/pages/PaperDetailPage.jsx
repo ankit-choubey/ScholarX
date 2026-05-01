@@ -243,7 +243,7 @@ export default function PaperDetailPage() {
             <button className="btn btn-outline btn-sm" onClick={() => onCitation('apa')}>APA Citation</button>
             <button className="btn btn-outline btn-sm" onClick={() => onCitation('ieee')}>IEEE Citation</button>
             {['researcher', 'editor'].includes(user.role) && <button className="btn btn-ghost btn-sm" onClick={onPlagiarism}>Run Plagiarism</button>}
-            {user.role === 'researcher' && isOwner && paper.status === 'submitted' && (
+            {user.role === 'researcher' && isOwner && paper.status !== 'published' && (
               <button
                 className="btn btn-danger btn-sm"
                 onClick={onDelete}
@@ -253,9 +253,6 @@ export default function PaperDetailPage() {
               </button>
             )}
           </div>
-          {user.role === 'researcher' && isOwner && paper.status !== 'submitted' ? (
-            <p className="helper-text mt-2">Delete is available only while status is Submitted.</p>
-          ) : null}
 
           {citation ? (
             <div className="mt-3 rounded-lg border border-white/10 bg-white/5 p-3">
@@ -280,15 +277,17 @@ export default function PaperDetailPage() {
         </SectionCard>
       ) : null}
 
-      <SectionCard title="Reviews">
-        {(paper.reviews || []).length ? paper.reviews.map((review) => (
-          <div key={review._id} className="mb-3 rounded-lg border border-white/10 p-3">
-            <p className="text-xs text-slate-400">Reviewer: {review.reviewerId?.name || 'Assigned Reviewer'}</p>
-            <p className="mt-1 text-sm text-slate-300">{review.comments}</p>
-            <p className="mt-2 text-xs text-slate-500">Score: {review.score} • Decision: {review.decision}</p>
-          </div>
-        )) : <p className="helper-text">No visible reviews yet.</p>}
-      </SectionCard>
+      <div className="mt-4">
+        <SectionCard title="Reviews">
+          {(paper.reviews || []).length ? paper.reviews.map((review) => (
+            <div key={review._id} className="mb-3 rounded-lg border border-white/10 p-3">
+              <p className="text-xs text-slate-400">Reviewer: {review.reviewerId?.name || 'Assigned Reviewer'}</p>
+              <p className="mt-1 text-sm text-slate-300">{review.comments}</p>
+              <p className="mt-2 text-xs text-slate-500">Score: {review.score} • Decision: {review.decision}</p>
+            </div>
+          )) : <p className="helper-text">No visible reviews yet.</p>}
+        </SectionCard>
+      </div>
 
       {user.role === 'researcher' && paper.status === 'revision_required' && (
         <SectionCard title="Revision Upload">

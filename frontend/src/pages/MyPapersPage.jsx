@@ -86,11 +86,9 @@ export default function MyPapersPage() {
       </div>
 
       <div className="papers-grid cards-section-gap">
-        {filtered.length ? filtered.map((paper) => {
-          const ownerId = String(paper.authorId?._id || paper.authorId || '');
-          const canDelete = ownerId === String(user?._id || '') && paper.status === 'submitted';
-          return <PaperCard key={paper._id} paper={paper} role={user.role} onDelete={onDelete} canDelete={canDelete} />;
-        }) : (
+        {filtered.length ? filtered.map((paper) => (
+          <PaperCard key={paper._id} paper={paper} role={user.role} onDelete={onDelete} canDelete={false} />
+        )) : (
           <EmptyState title="No submissions yet" body="Submit a manuscript to begin the review workflow." />
         )}
       </div>
