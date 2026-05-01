@@ -73,13 +73,15 @@ exports.getAllPublications = async (req, res, next) => {
     }
 
     // Query publications with same shape as before
-    const [items, total] = await Promise.all([
-      Publication.find(pubFilter)
-        .populate({ path: 'paperId', populate: { path: 'authorId', select: 'name institution' } })
-        .sort({ publicationDate: order })
-        .skip((page - 1) * limit).limit(limit).lean(),
-      Publication.countDocuments(pubFilter),
-    ]);
+    const itemsRaw = await Publication.find(pubFilter)
+      .populate({ path: 'paperId', populate: { path: 'authorId', select: 'name institution' } })
+      .sort({ publicationDate: order })
+      .skip((page - 1) * limit).limit(limit).lean();
+
+    const orphanIds = itemsRaw.filter((p) => !p.paperId).map((p) => p._id);
+    if (orphanIds.length) await Publication.deleteMany({ _id: { $in: orphanIds } });
+    const items = itemsRaw.filter((p) => p.paperId);
+    const total = await Publication.countDocuments(pubFilter);
 
     res.json({ success: true, data: { items, total, page, totalPages: Math.ceil(total / limit) } });
   } catch (err) { next(err); }

@@ -252,6 +252,15 @@ export default function PaperDetailPage() {
                 Delete
               </button>
             )}
+            {user.role === 'editor' && paper.status === 'published' && (
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={onDelete}
+                title="Delete this paper"
+              >
+                Delete
+              </button>
+            )}
           </div>
 
           {citation ? (
